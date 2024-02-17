@@ -20,7 +20,10 @@ function fetchEmployees() {
         deleteButton.textContent = 'Delete';
         deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
         deleteCell.appendChild(deleteButton);
-
+        deleteButton.addEventListener('click', function (event) {
+          event.preventDefault();
+          deleteEmployee(item.id);
+        });
         row.appendChild(deleteCell)
 
         tableBody.appendChild(row)
@@ -31,22 +34,61 @@ function fetchEmployees() {
 
 // TODO
 // add event listener to submit button
+document.querySelector('button[type="submit"]').addEventListener('click', (event) => {
+    event.preventDefault();
+    createEmployee();
+  });
 
 // TODO
 // add event listener to delete button
 
+// !! (Done in the fetch function above) !!
+
+
+// document.getaddEventListener('click', function (event) {
+//   if (event.target && event.target.classList.contains('deleteButton')) {
+//     const employeeId = event.target.dataset.employeeId;
+//     deleteEmployee(employeeId);
+//   }
+// });
+
+
 // TODO
 function createEmployee (){
   // get data from input field
+  const employeeName = document.getElementById("name");
+  const employeeID = document.getElementById("id");
+
   // send data to BE
-  // call fetchEmployees
+  fetch('http://localhost:3000/api/v1/employee', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id: employeeID.value,
+      name: employeeName.value,
+    }),
+  }).then(() => {
+    // call fetchEmployees
+    fetchEmployees();
+  });
+
 }
 
 // TODO
-function deleteEmployee (){
-  // get id
+function deleteEmployee (id){
+  // get id (already got it as an input parameter)
   // send id to BE
-  // call fetchEmployees
-}
+  fetch(`http://localhost:3000/api/v1/employee/${id}`, {
+    method: 'DELETE',}).then(() => {
+      // call fetchEmployees
+      fetchEmployees();
+    });
+  }
+
+  
+
+
 
 fetchEmployees()

@@ -8,8 +8,12 @@ exports.getEmployees = async (req, res, next) => {
 
 // TODO
 exports.deleteEmployee = async (req, res, next) => {
+  
 };
 
 // TODO
 exports.createEmployee = async (req, res, next) => {
+  const { id, name } = req.body;
+  employee.push({ id, name });
+  res.status(201).json({ data: employee });
 };
