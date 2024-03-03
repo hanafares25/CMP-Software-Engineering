@@ -59,6 +59,7 @@ function createEmployee (){
   const employeeName = document.getElementById("name");
   const employeeID = document.getElementById("id");
 
+
   // send data to BE
   fetch('http://localhost:3000/api/v1/employee', {
     method: 'POST',

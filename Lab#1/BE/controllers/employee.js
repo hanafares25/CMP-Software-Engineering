@@ -17,6 +17,10 @@ exports.deleteEmployee = async (req, res, next) => {
 // TODO
 exports.createEmployee = async (req, res, next) => {
   const { id, name } = req.body;
+  const isDuplicated = employee.some(empl => empl.id === id);
+  if (isDuplicated) {
+    return res.status(400).json({ error: 'Existing Employee with same ID' });
+  }
   employee.push({ id, name });
   res.status(201).json({ data: employee });
 };
